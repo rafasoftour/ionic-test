@@ -1,6 +1,8 @@
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
 
+
+
 *~
 *.sw[mnpcod]
 .tmp
@@ -20,7 +22,8 @@ log.txt
 # Ionic
 /.ionic
 /www
-/platforms
+/android
+/ios
 /plugins
 
 # Compiled output
