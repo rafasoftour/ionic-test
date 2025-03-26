@@ -1,0 +1,7 @@
+{
+  "name": "alert-toast-demo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
