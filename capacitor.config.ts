@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'alert-toast-demo',
+  appId: 'com.softoursistemas.ionictest',
+  appName: 'ionic-test',
   webDir: 'www'
 };
 
