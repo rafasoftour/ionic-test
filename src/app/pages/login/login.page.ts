@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {
   IonContent,
   IonHeader,
@@ -10,13 +15,10 @@ import {
   IonLabel,
   IonButton,
   IonText,
+  IonInput,
 } from '@ionic/angular/standalone';
-import { IonicModule, NavController } from '@ionic/angular';
-import {
-  AuthService,
-  LoginData,
-  LoginResponse,
-} from '../../services/auth.service';
+import { NavController } from '@ionic/angular';
+import { AuthService, LoginResponse } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -24,41 +26,46 @@ import {
   styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [
+    IonInput,
     IonContent,
     IonHeader,
     IonTitle,
     IonToolbar,
     CommonModule,
-    FormsModule,
     IonItem,
     IonLabel,
     IonButton,
     IonText,
+    ReactiveFormsModule,
   ],
 })
 export class LoginPage implements OnInit {
-  loginData: LoginData = {
-    email: '',
-    password: '',
-  };
+  loginForm: FormGroup;
   errorMessage: string = '';
+
   constructor(
     private authService: AuthService,
-    private navCtrl: NavController
-  ) {}
+    private navCtrl: NavController,
+    private fb: FormBuilder
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+    });
+  }
 
   ngOnInit() {}
 
   onSubmit() {
-    this.authService.login(this.loginData).subscribe({
+    if (this.loginForm.invalid) return; // Evita envíos si el formulario es inválido
+
+    this.authService.login(this.loginForm.value).subscribe({
       next: (response: LoginResponse) => {
-        // Maneja la respuesta exitosa (guarda el token, redirige, etc.)
         console.log('Login exitoso', response);
-        this.errorMessage = ''; // Limpia el mensaje de error
+        this.errorMessage = '';
         this.navCtrl.navigateForward('/home'); // Redirige a la página principal
       },
       error: (error) => {
-        // Maneja el error (muestra un mensaje de error, etc.)
         console.error('Error en el login', error);
         this.errorMessage = 'Credenciales incorrectas. Inténtalo de nuevo.';
       },

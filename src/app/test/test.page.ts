@@ -16,7 +16,7 @@ import {
   standalone: true,
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonButton],
 })
-export class HomePage {
+export class TestPage {
   constructor(
     private alertCtrl: AlertController,
     private toastCtrl: ToastController
