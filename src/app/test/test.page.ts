@@ -10,9 +10,9 @@ import {
 } from '@ionic/angular/standalone';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-test',
+  templateUrl: 'test.page.html',
+  styleUrls: ['test.page.scss'],
   standalone: true,
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonButton],
 })

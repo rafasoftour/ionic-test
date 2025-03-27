@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  appName: 'MiApp Dev',
-  apiBaseUrl: 'http://localhost:3000/api', // API local
+  appName: 'Plannerstats App',
+  apiBaseUrl: 'http://localhost:3000/plannerstats', // API local
   oneSignal: {
     appId: 'ONESIGNAL-DEV-APP-ID', // ID de desarrollo
     googleProjectNumber: '1234567890', // Solo para Android
