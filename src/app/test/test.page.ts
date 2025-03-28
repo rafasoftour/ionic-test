@@ -86,7 +86,7 @@ export class TestPage {
   }
 
   goTest2() {
-    this.navCtrl.navigateForward('/test2');
+    this.navCtrl.navigateForward('/home');
   }
   goTest3() {
     this.navCtrl.navigateForward('/test3');

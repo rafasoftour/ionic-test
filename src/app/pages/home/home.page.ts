@@ -7,6 +7,7 @@ import {
   IonButtons,
   IonMenuButton,
 } from '@ionic/angular/standalone';
+import { MenuComponent } from '../../components/menu/menu.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -19,6 +20,7 @@ import {
     IonToolbar,
     IonButtons,
     IonMenuButton,
+    MenuComponent,
   ], // Asegúrate de incluir el componente aquí
 })
 export class HomePage {}
