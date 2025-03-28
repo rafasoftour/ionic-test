@@ -8,6 +8,7 @@ import {
   IonContent,
   IonButton,
 } from '@ionic/angular/standalone';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-test',
@@ -19,7 +20,8 @@ import {
 export class TestPage {
   constructor(
     private alertCtrl: AlertController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private navCtrl: NavController
   ) {}
 
   // ALERTAS
@@ -60,7 +62,7 @@ export class TestPage {
     const toast = await this.toastCtrl.create({
       message: message || 'Este es un toast básico',
       duration: 2000,
-      position: 'top',
+      position: 'middle',
     });
     await toast.present();
   }
@@ -81,5 +83,9 @@ export class TestPage {
       ],
     });
     await toast.present();
+  }
+
+  irALogin() {
+    this.navCtrl.navigateForward('/login');
   }
 }

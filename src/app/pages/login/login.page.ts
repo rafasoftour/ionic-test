@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -19,6 +19,7 @@ import {
 } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
 import { AuthService, LoginResponse } from '../../services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +42,7 @@ import { AuthService, LoginResponse } from '../../services/auth.service';
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
-  errorMessage: string = '';
+  private toastService = inject(ToastService);
 
   constructor(
     private authService: AuthService,
@@ -62,12 +63,14 @@ export class LoginPage implements OnInit {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response: LoginResponse) => {
         console.log('Login exitoso', response);
-        this.errorMessage = '';
         this.navCtrl.navigateForward('/home'); // Redirige a la página principal
       },
       error: (error) => {
         console.error('Error en el login', error);
-        this.errorMessage = 'Credenciales incorrectas. Inténtalo de nuevo.';
+        this.toastService.showMessage(
+          'Credenciales incorrectas. Inténtalo de nuevo.',
+          'warning'
+        );
       },
     });
   }
