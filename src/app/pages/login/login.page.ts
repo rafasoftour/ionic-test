@@ -1,5 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NavController } from '@ionic/angular';
+import { AuthService, LoginResponse } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
+
+// Componentes específicos de IONIC
 import {
   FormBuilder,
   FormGroup,
@@ -17,9 +22,7 @@ import {
   IonText,
   IonInput,
 } from '@ionic/angular/standalone';
-import { NavController } from '@ionic/angular';
-import { AuthService, LoginResponse } from '../../services/auth.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -43,6 +46,7 @@ import { ToastService } from 'src/app/services/toast.service';
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
   private toastService = inject(ToastService);
+  private storageService = inject(StorageService);
 
   constructor(
     private authService: AuthService,
@@ -63,6 +67,7 @@ export class LoginPage implements OnInit {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response: LoginResponse) => {
         console.log('Login exitoso', response);
+        this.storageService.set('plannerstats-user', response);
         this.navCtrl.navigateForward('/home'); // Redirige a la página principal
       },
       error: (error) => {

@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { importProvidersFrom } from '@angular/core';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -13,5 +14,6 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes),
     provideHttpClient(),
     importProvidersFrom(FormsModule, ReactiveFormsModule),
+    importProvidersFrom(IonicStorageModule.forRoot()),
   ],
 });
