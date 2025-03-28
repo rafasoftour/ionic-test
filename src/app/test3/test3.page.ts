@@ -9,15 +9,12 @@ import {
   IonButtons,
   IonMenuButton,
 } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { homeOutline, statsChartOutline, carOutline } from 'ionicons/icons';
-import { RouterModule } from '@angular/router';
 import { Menu2Component } from '../menu2/menu2.component';
 
 @Component({
-  selector: 'app-test2',
-  templateUrl: './test2.page.html',
-  styleUrls: ['./test2.page.scss'],
+  selector: 'app-test3',
+  templateUrl: './test3.page.html',
+  styleUrls: ['./test3.page.scss'],
   standalone: true,
   imports: [
     IonContent,
@@ -26,20 +23,13 @@ import { Menu2Component } from '../menu2/menu2.component';
     IonToolbar,
     CommonModule,
     FormsModule,
+    Menu2Component,
     IonButtons,
     IonMenuButton,
-    RouterModule,
-    Menu2Component,
   ],
 })
-export class Test2Page implements OnInit {
-  constructor() {
-    addIcons({
-      homeOutline,
-      statsChartOutline,
-      carOutline,
-    });
-  }
+export class Test3Page implements OnInit {
+  constructor() {}
 
   ngOnInit() {}
 }

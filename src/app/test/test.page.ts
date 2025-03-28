@@ -85,7 +85,10 @@ export class TestPage {
     await toast.present();
   }
 
-  goTest() {
+  goTest2() {
     this.navCtrl.navigateForward('/test2');
+  }
+  goTest3() {
+    this.navCtrl.navigateForward('/test3');
   }
 }
