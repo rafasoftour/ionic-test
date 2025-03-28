@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavController } from '@ionic/angular';
-import { AuthService, LoginResponse } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 
 // Componentes específicos de IONIC
@@ -23,6 +23,7 @@ import {
   IonInput,
 } from '@ionic/angular/standalone';
 import { StorageService } from '../../services/storage.service';
+import { LoginResponse } from 'src/app/interfaces/user.interface';
 
 @Component({
   selector: 'app-login',
@@ -65,9 +66,9 @@ export class LoginPage implements OnInit {
     if (this.loginForm.invalid) return; // Evita envíos si el formulario es inválido
 
     this.authService.login(this.loginForm.value).subscribe({
-      next: (response: LoginResponse) => {
+      next: async (response: LoginResponse) => {
         console.log('Login exitoso', response);
-        this.storageService.set('plannerstats-user', response);
+        await this.storageService.set('plannerstats-user', response);
         this.navCtrl.navigateForward('/home'); // Redirige a la página principal
       },
       error: (error) => {
