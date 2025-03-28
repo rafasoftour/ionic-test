@@ -85,7 +85,7 @@ export class TestPage {
     await toast.present();
   }
 
-  irALogin() {
-    this.navCtrl.navigateForward('/login');
+  goTest() {
+    this.navCtrl.navigateForward('/test2');
   }
 }

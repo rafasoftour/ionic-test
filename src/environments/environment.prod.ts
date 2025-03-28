@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   appName: 'MiApp',
-  apiBaseUrl: 'https://api.tudominio.com/api',
+  apiBaseUrl: 'https://api-dev.softoursistemas.org/plannerstats',
   oneSignal: {
     appId: 'ONESIGNAL-PROD-WEB-APP-ID', // ID para web PWA
     googleProjectNumber: '5555666677',
