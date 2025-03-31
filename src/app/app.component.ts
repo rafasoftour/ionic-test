@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular/standalone';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import {
   IonContent,

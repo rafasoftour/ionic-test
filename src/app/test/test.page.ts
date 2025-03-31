@@ -8,7 +8,7 @@ import {
   IonContent,
   IonButton,
 } from '@ionic/angular/standalone';
-import { NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-test',
