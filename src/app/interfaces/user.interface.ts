@@ -9,3 +9,10 @@ export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface Usuario {
+  name: string;
+  email: string;
+  accessToken: string;
+  refreshToken: string;
+}

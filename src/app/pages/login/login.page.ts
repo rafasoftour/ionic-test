@@ -48,12 +48,8 @@ export class LoginPage implements OnInit {
   loginForm: FormGroup;
   private toastService = inject(ToastService);
   private storageService = inject(StorageService);
-
-  constructor(
-    private authService: AuthService,
-    private navCtrl: NavController,
-    private fb: FormBuilder
-  ) {
+  private authService = inject(AuthService);
+  constructor(private navCtrl: NavController, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -65,19 +61,22 @@ export class LoginPage implements OnInit {
   onSubmit() {
     if (this.loginForm.invalid) return; // Evita envíos si el formulario es inválido
 
-    this.authService.login(this.loginForm.value).subscribe({
-      next: async (response: LoginResponse) => {
-        console.log('Login exitoso', response);
-        await this.storageService.set('plannerstats-user', response);
-        this.navCtrl.navigateForward('/home'); // Redirige a la página principal
-      },
-      error: (error) => {
-        console.error('Error en el login', error);
-        this.toastService.showMessage(
-          'Credenciales incorrectas. Inténtalo de nuevo.',
-          'warning'
-        );
-      },
-    });
+    this.authService
+      .login(this.loginForm.value.email, this.loginForm.value.password)
+      .subscribe({
+        next: async (response: LoginResponse) => {
+          console.log('Login exitoso', response);
+          await this.storageService.set('plannerstats-user', response);
+          this.authService.setAccessToken(response.accessToken);
+          this.authService.setRefreshToken(response.refreshToken);
+          this.navCtrl.navigateForward('/home'); // Redirige a la página principal
+        },
+        error: (error) => {
+          console.error('Error en el login', error);
+          let message = 'Credenciales incorrectas. Inténtalo de nuevo.';
+          if (error.error && error.error.message) message = error.error.message;
+          this.toastService.showMessage(message, 'warning');
+        },
+      });
   }
 }
