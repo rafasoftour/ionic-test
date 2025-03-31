@@ -1,0 +1,36 @@
+<app-menu></app-menu>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Vehiculos</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="goHome()">
+          <ion-icon name="home-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      debounce="500"
+      show-clear-button="focus"
+      placeholder="Buscar por matrícula..."
+      (ionInput)="searchVehicle()"
+    >
+    </ion-searchbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+      @for(vehiculo of filteredVehiculos; track vehiculo; let i =$index) {
+      <ion-item>
+        <ion-label>
+          <h2>{{ vehiculo.identificador }} {{ vehiculo.vin }}</h2>
+          <p>Matricula: {{ vehiculo.matricula }} Tenant: {{vehiculo.tenant}}</p>
+        </ion-label>
+      </ion-item>
+      }
+    </ion-list>
+  </ion-content>
+</div>

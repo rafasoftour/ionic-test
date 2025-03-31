@@ -45,19 +45,19 @@ export class AuthService {
 
   // Métodos para guardar los tokens (puedes acceder a los valores en memoria)
   setAccessToken(token: string) {
-    this.accessToken = token;
+    localStorage.setItem('accessToken', token);
   }
 
   setRefreshToken(token: string) {
-    this.refreshToken = token;
+    localStorage.setItem('refreshToken', token);
   }
 
   // Métodos para obtener los tokens (puedes acceder a los valores en memoria)
   getAccessToken(): string | null {
-    return this.accessToken;
+    return localStorage.getItem('accessToken');
   }
 
   getRefreshToken(): string | null {
-    return this.refreshToken;
+    return localStorage.getItem('refreshToken');
   }
 }

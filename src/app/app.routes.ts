@@ -22,4 +22,10 @@ export const routes: Routes = [
       import('./pages/home/home.page').then((m) => m.HomePage),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'vehiculo',
+    loadComponent: () =>
+      import('./pages/vehiculo/vehiculo.page').then((m) => m.VehiculoPage),
+    canActivate: [AuthGuard],
+  },
 ];

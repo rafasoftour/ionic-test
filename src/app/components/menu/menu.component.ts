@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { homeOutline, statsChartOutline, carOutline } from 'ionicons/icons';
+import { homeOutline, carOutline } from 'ionicons/icons';
 import {
   IonContent,
   IonHeader,
@@ -34,7 +34,6 @@ export class MenuComponent {
   constructor() {
     addIcons({
       homeOutline,
-      statsChartOutline,
       carOutline,
     });
   }
