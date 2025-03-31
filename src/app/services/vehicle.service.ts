@@ -17,4 +17,23 @@ export class VehicleService {
   getAllVehicles(): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(this.apiUrl); // La petición GET para obtener los vehículos
   }
+
+  getVehicleById(id: string): Observable<Vehicle> {
+    return this.http.get<Vehicle>(`${this.apiUrl}/${id}`);
+  }
+
+  updateVehicle(vehiculo: Vehicle): Observable<Vehicle> {
+    return this.http.put<Vehicle>(
+      `${this.apiUrl}/${vehiculo.matricula}`,
+      vehiculo
+    );
+  }
+
+  createVehicle(vehiculo: Vehicle): Observable<Vehicle> {
+    return this.http.post<Vehicle>(this.apiUrl, vehiculo);
+  }
+
+  deleteVehicle(vehiculo: Vehicle): Observable<Vehicle> {
+    return this.http.delete<Vehicle>(`${this.apiUrl}/${vehiculo.matricula}`);
+  }
 }

@@ -15,15 +15,24 @@ import {
   IonLabel,
   IonSearchbar,
   IonMenuToggle,
+  IonItemSliding,
+  IonItemOptions,
+  IonItemOption,
+  IonFab,
+  IonFabButton,
 } from '@ionic/angular/standalone';
-import { MenuComponent } from '../../components/menu/menu.component';
-import { NavigationEnd, Router } from '@angular/router';
-import { addIcons } from 'ionicons';
-import { homeOutline } from 'ionicons/icons';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular/standalone';
 import { Vehicle } from 'src/app/interfaces/vehicle.interface';
 import { VehicleService } from 'src/app/services/vehicle.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { MenuController } from '@ionic/angular';
+import { addIcons } from 'ionicons';
+import {
+  homeOutline,
+  trashOutline,
+  createOutline,
+  addOutline,
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-vehiculo',
@@ -31,6 +40,11 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['./vehiculo.page.scss'],
   standalone: true,
   imports: [
+    IonFabButton,
+    IonFab,
+    IonItemOption,
+    IonItemOptions,
+    IonItemSliding,
     IonContent,
     IonHeader,
     IonTitle,
@@ -48,20 +62,23 @@ import { MenuController } from '@ionic/angular';
     IonMenuToggle,
   ],
 })
-export class VehiculoPage implements OnInit {
+export class VehiculoPage {
   searchQuery: string = ''; // Valor del campo de búsqueda
   vehiculos: Vehicle[] = []; // Lista completa de vehículos
   filteredVehiculos: Vehicle[] = []; // Lista filtrada según la búsqueda
 
   private vehicleService = inject(VehicleService);
   private toastService = inject(ToastService);
-  constructor(private router: Router) {
-    addIcons({
-      homeOutline,
-    });
+
+  constructor(
+    private router: Router,
+    private alertController: AlertController
+  ) {
+    addIcons({ homeOutline, createOutline, trashOutline, addOutline });
   }
 
-  ngOnInit() {
+  // Utilizamos willEnter para que se actualice la lista al crear o eliminar
+  ionViewWillEnter() {
     this.obtenerVehiculos();
   }
 
@@ -99,5 +116,40 @@ export class VehiculoPage implements OnInit {
 
   goHome() {
     this.router.navigate(['/home']);
+  }
+
+  editVehicle(vehiculo: Vehicle) {
+    console.log('EditV', vehiculo);
+    this.router.navigate(['/vehiculo/editar', vehiculo.matricula]);
+  }
+
+  async deleteVehicle(vehiculo: Vehicle) {
+    console.log('DeleteV', vehiculo);
+    const alert = await this.alertController.create({
+      header: 'Eliminar Vehículo',
+      message: `¿Estás seguro de que deseas eliminar el vehiculo con matrícula ${vehiculo.matricula}?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive', // Rojo en iOS
+          handler: () => {
+            this.vehicleService.deleteVehicle(vehiculo).subscribe(() => {
+              this.toastService.showMessage('Vehículo eliminado', 'warning');
+              this.obtenerVehiculos(); // Recargar la lista tras eliminar
+            });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+  createVehicle() {
+    console.log('Crear vehículo');
+    this.router.navigate(['/vehiculo/nuevo']);
   }
 }

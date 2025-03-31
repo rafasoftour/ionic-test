@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelar()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ isEdit ? 'Editar Vehículo' : 'Nuevo Vehículo' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="guardarVehiculo()">
+    <ion-item>
+      <ion-label position="floating">Matrícula</ion-label>
+      <ion-input
+        [(ngModel)]="vehiculo.matricula"
+        name="matricula"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">VIN</ion-label>
+      <ion-input [(ngModel)]="vehiculo.vin" name="vin" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Identificador</ion-label>
+      <ion-input
+        [(ngModel)]="vehiculo.identificador"
+        name="identificador"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Tenant</ion-label>
+      <ion-input [(ngModel)]="vehiculo.tenant" name="tenant"></ion-input>
+    </ion-item>
+
+    <ion-button
+      expand="full"
+      type="submit"
+      [disabled]="!vehiculo.matricula || !vehiculo.vin"
+    >
+      Guardar
+    </ion-button>
+  </form>
+</ion-content>
