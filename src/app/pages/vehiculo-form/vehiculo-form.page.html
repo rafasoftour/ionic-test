@@ -10,40 +10,54 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form (ngSubmit)="guardarVehiculo()">
+  <form [formGroup]="vehiculoForm" (ngSubmit)="guardarVehiculo()">
     <ion-item>
-      <ion-label position="floating">Matrícula</ion-label>
-      <ion-input
-        [(ngModel)]="vehiculo.matricula"
-        name="matricula"
-        required
-      ></ion-input>
+      <ion-label position="stacked">Matrícula</ion-label>
+      <ion-input name="matricula" formControlName="matricula"></ion-input>
     </ion-item>
+    @if(vehiculoForm.get('matricula')?.invalid &&
+    vehiculoForm.get('matricula')?.touched) {
+    <ion-text color="danger">
+      <p>La matricula es requerida</p>
+    </ion-text>
+    }
 
     <ion-item>
-      <ion-label position="floating">VIN</ion-label>
-      <ion-input [(ngModel)]="vehiculo.vin" name="vin" required></ion-input>
+      <ion-label position="stacked">VIN</ion-label>
+      <ion-input name="vin" formControlName="vin"></ion-input>
     </ion-item>
+    @if(vehiculoForm.get('vin')?.invalid && vehiculoForm.get('vin')?.touched) {
+    <ion-text color="danger">
+      <p>El vin es requerido</p>
+    </ion-text>
+    }
 
     <ion-item>
-      <ion-label position="floating">Identificador</ion-label>
+      <ion-label position="stacked">Identificador</ion-label>
       <ion-input
-        [(ngModel)]="vehiculo.identificador"
         name="identificador"
-        required
+        formControlName="identificador"
       ></ion-input>
     </ion-item>
+    @if(vehiculoForm.get('identificador')?.invalid &&
+    vehiculoForm.get('identificador')?.touched) {
+    <ion-text color="danger">
+      <p>El identificador es requerido</p>
+    </ion-text>
+    }
 
     <ion-item>
-      <ion-label position="floating">Tenant</ion-label>
-      <ion-input [(ngModel)]="vehiculo.tenant" name="tenant"></ion-input>
+      <ion-label position="stacked">Tenant</ion-label>
+      <ion-input name="tenant" formControlName="tenant"></ion-input>
     </ion-item>
+    @if(vehiculoForm.get('tenant')?.invalid &&
+    vehiculoForm.get('tenant')?.touched) {
+    <ion-text color="danger">
+      <p>El tenant es requerido</p>
+    </ion-text>
+    }
 
-    <ion-button
-      expand="full"
-      type="submit"
-      [disabled]="!vehiculo.matricula || !vehiculo.vin"
-    >
+    <ion-button expand="full" type="submit" [disabled]="vehiculoForm.invalid">
       Guardar
     </ion-button>
   </form>

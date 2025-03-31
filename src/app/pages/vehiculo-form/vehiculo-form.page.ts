@@ -1,6 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {
   IonContent,
   IonHeader,
@@ -12,11 +17,10 @@ import {
   IonItem,
   IonLabel,
   IonInput,
+  IonText,
 } from '@ionic/angular/standalone';
-import { Vehicle } from 'src/app/interfaces/vehicle.interface';
 import { VehicleService } from '../../services/vehicle.service';
 import { ToastService } from '../../services/toast.service';
-
 import { addIcons } from 'ionicons';
 import { closeOutline } from 'ionicons/icons';
 
@@ -26,7 +30,7 @@ import { closeOutline } from 'ionicons/icons';
   styleUrls: ['./vehiculo-form.page.scss'],
   standalone: true,
   imports: [
-    FormsModule,
+    IonText,
     IonContent,
     IonHeader,
     IonTitle,
@@ -37,19 +41,26 @@ import { closeOutline } from 'ionicons/icons';
     IonItem,
     IonLabel,
     IonInput,
+    ReactiveFormsModule,
   ],
 })
 export class VehiculoFormPage implements OnInit {
-  vehiculo: any = {};
+  vehiculoForm: FormGroup;
   isEdit = false;
-
   private vehicleService = inject(VehicleService);
   private toastService = inject(ToastService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  constructor() {
+  constructor(private fb: FormBuilder) {
     addIcons({ closeOutline });
+
+    this.vehiculoForm = this.fb.group({
+      identificador: ['', Validators.required],
+      matricula: ['', Validators.required],
+      vin: ['', Validators.required],
+      tenant: ['', Validators.required],
+    });
   }
 
   ngOnInit() {
@@ -62,18 +73,26 @@ export class VehiculoFormPage implements OnInit {
 
   cargarVehiculo(id: string) {
     this.vehicleService.getVehicleById(id).subscribe((vehiculo) => {
-      this.vehiculo = vehiculo;
+      if (vehiculo) {
+        this.vehiculoForm.patchValue(vehiculo);
+      }
     });
   }
 
   guardarVehiculo() {
+    if (this.vehiculoForm.invalid) {
+      return;
+    }
+
+    const vehiculoData = this.vehiculoForm.value;
+
     if (this.isEdit) {
-      this.vehicleService.updateVehicle(this.vehiculo).subscribe(() => {
+      this.vehicleService.updateVehicle(vehiculoData).subscribe(() => {
         this.toastService.showMessage('Vehículo actualizado', 'success');
         this.router.navigate(['/vehiculo']);
       });
     } else {
-      this.vehicleService.createVehicle(this.vehiculo).subscribe(() => {
+      this.vehicleService.createVehicle(vehiculoData).subscribe(() => {
         this.toastService.showMessage('Vehículo creado', 'success');
         this.router.navigate(['/vehiculo']);
       });
