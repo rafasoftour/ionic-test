@@ -20,12 +20,12 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./pages/home/home.page').then((m) => m.HomePage),
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'vehiculo',
     loadComponent: () =>
       import('./pages/vehiculo/vehiculo.page').then((m) => m.VehiculoPage),
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
 ];

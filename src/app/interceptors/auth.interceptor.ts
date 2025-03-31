@@ -9,10 +9,11 @@ import {
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { catchError, switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -53,6 +54,7 @@ export class AuthInterceptor implements HttpInterceptor {
         // En caso de error 403 o cualquier otro, redirigimos al login
         if (error.status === 403 || error.status === 401) {
           // Manejar el cierre de sesión y redirección al login
+          this.router.navigate(['/login']);
         }
 
         throw error;

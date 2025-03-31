@@ -10,7 +10,6 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(): Promise<boolean> {
     const user = await this.storageService.get('plannerstats-user');
-    console.log('Usuario', user);
 
     if (user) {
       return true; // Permite el acceso

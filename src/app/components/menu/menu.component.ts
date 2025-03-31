@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { homeOutline, carOutline } from 'ionicons/icons';
@@ -12,6 +12,7 @@ import {
   IonIcon,
   IonLabel,
 } from '@ionic/angular/standalone';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-menu',
@@ -30,11 +31,15 @@ import {
     IonLabel,
   ],
 })
-export class MenuComponent {
-  constructor() {
+export class MenuComponent implements AfterViewInit {
+  constructor(private menuCtrl: MenuController) {
     addIcons({
       homeOutline,
       carOutline,
     });
+  }
+  ngAfterViewInit() {
+    // Asegurarse de que el menú esté habilitado cuando la vista esté cargada
+    this.menuCtrl.enable(true, 'main-menu');
   }
 }

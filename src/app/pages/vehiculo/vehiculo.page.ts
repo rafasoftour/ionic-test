@@ -14,14 +14,16 @@ import {
   IonItem,
   IonLabel,
   IonSearchbar,
+  IonMenuToggle,
 } from '@ionic/angular/standalone';
 import { MenuComponent } from '../../components/menu/menu.component';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { homeOutline } from 'ionicons/icons';
 import { Vehicle } from 'src/app/interfaces/vehicle.interface';
 import { VehicleService } from 'src/app/services/vehicle.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-vehiculo',
@@ -39,11 +41,11 @@ import { ToastService } from 'src/app/services/toast.service';
     IonIcon,
     CommonModule,
     FormsModule,
-    MenuComponent,
     IonList,
     IonItem,
     IonLabel,
     IonSearchbar,
+    IonMenuToggle,
   ],
 })
 export class VehiculoPage implements OnInit {
@@ -62,6 +64,8 @@ export class VehiculoPage implements OnInit {
   ngOnInit() {
     this.obtenerVehiculos();
   }
+
+  ngAfterViewInit() {}
 
   obtenerVehiculos() {
     this.vehicleService.getAllVehicles().subscribe({
