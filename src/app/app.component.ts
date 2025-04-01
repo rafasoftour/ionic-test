@@ -15,6 +15,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { homeOutline, carOutline } from 'ionicons/icons';
+import { MenuItem } from './interfaces/menu.interface';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,10 @@ import { homeOutline, carOutline } from 'ionicons/icons';
   ],
 })
 export class AppComponent {
+  menuList: MenuItem[] = [
+    { link: '/home', icon: 'home-outline', label: 'Inicio' },
+    { link: '/vehiculo', icon: 'car-outline', label: 'Vehiculos' },
+  ];
   constructor(private menuCtrl: MenuController) {
     addIcons({
       homeOutline,

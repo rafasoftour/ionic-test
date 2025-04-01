@@ -13,6 +13,6 @@ export interface LoginResponse {
 export interface Usuario {
   name: string;
   email: string;
-  accessToken: string;
-  refreshToken: string;
+  role: string;
+  mfaSecret?: string;
 }
