@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MenuController } from '@ionic/angular/standalone';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import {
   IonContent,
@@ -14,8 +13,9 @@ import {
   IonMenuToggle,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { homeOutline, carOutline } from 'ionicons/icons';
+import { homeOutline, carOutline, peopleOutline } from 'ionicons/icons';
 import { MenuItem } from './interfaces/menu.interface';
+import { StorageService } from './services/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -36,19 +36,37 @@ import { MenuItem } from './interfaces/menu.interface';
     IonMenuToggle,
   ],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  private storageService = inject(StorageService);
   menuList: MenuItem[] = [
     { link: '/home', icon: 'home-outline', label: 'Inicio' },
     { link: '/vehiculo', icon: 'car-outline', label: 'Vehiculos' },
   ];
-  constructor(private menuCtrl: MenuController) {
+  constructor() {
     addIcons({
       homeOutline,
       carOutline,
+      peopleOutline,
     });
   }
-  closeMenu() {
-    console.log('Cierra menu');
-    this.menuCtrl.close('main-menu');
+
+  async ngOnInit() {
+    await this.cargarMenus(); // Llamamos a la función async aquí
+  }
+
+  async cargarMenus() {
+    const user = await this.storageService.get('plannerstats-user');
+    const role = user?.role || 'user';
+    this.menuList =
+      role === 'admin'
+        ? [
+            { link: '/home', icon: 'home-outline', label: 'Inicio' },
+            { link: '/vehiculo', icon: 'car-outline', label: 'Vehiculos' },
+            { link: '/usuario', icon: 'people-outline', label: 'Usuarios' },
+          ]
+        : [
+            { link: '/home', icon: 'home-outline', label: 'Inicio' },
+            { link: '/vehiculo', icon: 'car-outline', label: 'Vehiculos' },
+          ];
   }
 }

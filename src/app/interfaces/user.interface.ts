@@ -11,8 +11,10 @@ export interface LoginResponse {
 }
 
 export interface Usuario {
+  _id: string;
   name: string;
   email: string;
   role: string;
   mfaSecret?: string;
+  password?: string;
 }

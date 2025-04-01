@@ -34,6 +34,7 @@ export const routes: Routes = [
       import('./pages/vehiculo-form/vehiculo-form.page').then(
         (m) => m.VehiculoFormPage
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'vehiculo/editar/:id',
@@ -41,5 +42,28 @@ export const routes: Routes = [
       import('./pages/vehiculo-form/vehiculo-form.page').then(
         (m) => m.VehiculoFormPage
       ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'usuario',
+    loadComponent: () =>
+      import('./pages/usuario/usuario.page').then((m) => m.UsuarioPage),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'usuario/nuevo',
+    loadComponent: () =>
+      import('./pages/usuario-form/usuario-form.page').then(
+        (m) => m.UsuarioFormPage
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'usuario/editar/:id',
+    loadComponent: () =>
+      import('./pages/usuario-form/usuario-form.page').then(
+        (m) => m.UsuarioFormPage
+      ),
+    canActivate: [AuthGuard],
   },
 ];
