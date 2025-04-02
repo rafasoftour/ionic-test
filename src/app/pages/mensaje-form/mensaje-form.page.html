@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelar()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ isEdit ? 'Editar Mensaje' : 'Nuevo Mensaje' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="mensajeForm" (ngSubmit)="guardarMensaje()">
+    <ion-item>
+      <ion-label position="stacked">Título</ion-label>
+      <ion-input name="title" formControlName="title"></ion-input>
+    </ion-item>
+    @if(mensajeForm.get('title')?.invalid && mensajeForm.get('title')?.touched)
+    {
+    <ion-text color="danger">
+      <p>El título es requerido</p>
+    </ion-text>
+    }
+
+    <ion-item>
+      <ion-label position="stacked">Mensaje</ion-label>
+      <ion-textarea
+        name="body"
+        formControlName="body"
+        autoGrow="true"
+      ></ion-textarea>
+    </ion-item>
+    @if(mensajeForm.get('body')?.invalid && mensajeForm.get('body')?.touched) {
+    <ion-text color="danger">
+      <p>El mensaje es requerido</p>
+    </ion-text>
+    }
+    <ion-button expand="full" type="submit" [disabled]="mensajeForm.invalid">
+      Guardar
+    </ion-button>
+  </form>
+</ion-content>

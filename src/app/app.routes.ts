@@ -72,4 +72,20 @@ export const routes: Routes = [
       import('./pages/mensaje/mensaje.page').then((m) => m.MensajePage),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'mensaje/nuevo',
+    loadComponent: () =>
+      import('./pages/mensaje-form/mensaje-form.page').then(
+        (m) => m.MensajeFormPage
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'mensaje/editar/:id',
+    loadComponent: () =>
+      import('./pages/mensaje-form/mensaje-form.page').then(
+        (m) => m.MensajeFormPage
+      ),
+    canActivate: [AuthGuard],
+  },
 ];
