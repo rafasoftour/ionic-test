@@ -24,6 +24,7 @@ export class MenuService {
             { link: '/home', icon: 'home-outline', label: 'Inicio' },
             { link: '/vehiculo', icon: 'car-outline', label: 'Vehiculos' },
             { link: '/usuario', icon: 'people-outline', label: 'Usuarios' },
+            { link: '/mensaje', icon: 'notifications', label: 'Mensajes' },
           ]
         : [
             { link: '/home', icon: 'home-outline', label: 'Inicio' },

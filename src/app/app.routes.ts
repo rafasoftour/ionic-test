@@ -66,4 +66,10 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'mensaje',
+    loadComponent: () =>
+      import('./pages/mensaje/mensaje.page').then((m) => m.MensajePage),
+    canActivate: [AuthGuard],
+  },
 ];

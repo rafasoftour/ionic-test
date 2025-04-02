@@ -1,0 +1,57 @@
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-toggle menu="main-menu">
+          <ion-menu-button></ion-menu-button>
+        </ion-menu-toggle>
+      </ion-buttons>
+      <ion-title>Mensajes</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="goHome()">
+          <ion-icon name="home-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      debounce="500"
+      show-clear-button="focus"
+      placeholder="Buscar por titulo..."
+      (ionInput)="searchMensaje()"
+    >
+    </ion-searchbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+      @for(mensaje of filteredVehiculos; track mensaje; let i =$index) {
+      <ion-item-sliding>
+        <ion-item>
+          <ion-label>
+            <h2>{{ mensaje.title }}</h2>
+            <p>{{mensaje.body}}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="start">
+          <ion-item-option color="warning" (click)="editMensaje(mensaje)">
+            <ion-icon slot="start" name="create-outline"></ion-icon>
+            Editar
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="deleteMensaje(mensaje)">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Eliminar
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      }
+    </ion-list>
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="createMensaje()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>
+</div>
