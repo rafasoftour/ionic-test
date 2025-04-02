@@ -20,6 +20,7 @@ import {
   IonItemOption,
   IonFab,
   IonFabButton,
+  LoadingController,
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular/standalone';
@@ -73,7 +74,8 @@ export class UsuarioPage {
 
   constructor(
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loadingController: LoadingController
   ) {
     addIcons({
       peopleOutline,
@@ -91,17 +93,24 @@ export class UsuarioPage {
 
   ngAfterViewInit() {}
 
-  obtenerUsuarios() {
+  async obtenerUsuarios() {
+    const loading = await this.loadingController.create({
+      message: 'Cargando usuarios...',
+      duration: 0, // Lo dejamos indefinido para controlarlo manualmente
+    });
+    await loading.present();
     this.usuarioService.getAllUsers().subscribe({
       next: (data) => {
         this.usuarios = data;
         this.filteredUsuarios = data;
+        loading.dismiss();
       },
       error: (error) => {
         console.error('Error al obtener usuarios:', error);
         let message = 'Error en la obtención de usuarios';
         if (error.error && error.error.message) message = error.error.message;
         this.toastService.showMessage(message, 'warning');
+        loading.dismiss();
       },
     });
   }

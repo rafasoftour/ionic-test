@@ -20,6 +20,7 @@ import {
   IonItemOption,
   IonFab,
   IonFabButton,
+  LoadingController,
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular/standalone';
@@ -72,7 +73,8 @@ export class VehiculoPage {
 
   constructor(
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loadingController: LoadingController
   ) {
     addIcons({ homeOutline, createOutline, trashOutline, addOutline });
   }
@@ -84,17 +86,24 @@ export class VehiculoPage {
 
   ngAfterViewInit() {}
 
-  obtenerVehiculos() {
+  async obtenerVehiculos() {
+    const loading = await this.loadingController.create({
+      message: 'Cargando vehiculos...',
+      duration: 0, // Lo dejamos indefinido para controlarlo manualmente
+    });
+    await loading.present();
     this.vehicleService.getAllVehicles().subscribe({
       next: (data) => {
         this.vehiculos = data;
         this.filteredVehiculos = data;
+        loading.dismiss();
       },
       error: (error) => {
         console.error('Error al obtener vehículos:', error);
         let message = 'Error en la obtención de vehículos';
         if (error.error && error.error.message) message = error.error.message;
         this.toastService.showMessage(message, 'warning');
+        loading.dismiss();
       },
     });
   }
