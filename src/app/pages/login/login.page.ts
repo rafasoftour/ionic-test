@@ -23,7 +23,11 @@ import {
   IonInput,
 } from '@ionic/angular/standalone';
 import { StorageService } from '../../services/storage.service';
-import { LoginResponse } from 'src/app/interfaces/user.interface';
+import { LoginResponse, Usuario } from '../../interfaces/user.interface';
+import { NotificationService } from '../../services/notification.service';
+import { UsuarioService } from '../../services/usuario.service';
+import { firstValueFrom } from 'rxjs';
+import { MenuService } from '../../services/menu.service';
 
 @Component({
   selector: 'app-login',
@@ -49,6 +53,9 @@ export class LoginPage implements OnInit {
   private toastService = inject(ToastService);
   private storageService = inject(StorageService);
   private authService = inject(AuthService);
+  private notificationService = inject(NotificationService);
+  private usuarioService = inject(UsuarioService);
+  private menuService = inject(MenuService);
   constructor(private navCtrl: NavController, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -69,6 +76,25 @@ export class LoginPage implements OnInit {
           await this.storageService.set('plannerstats-user', response);
           this.authService.setAccessToken(response.accessToken);
           this.authService.setRefreshToken(response.refreshToken);
+          // Actualizar el playerId
+          const playerId = await this.notificationService.getOneSignalId();
+          console.log('PlayerId obtenido', playerId);
+          let user: Usuario = response;
+          if (playerId) {
+            user.playerId = playerId;
+            try {
+              console.log('Usuario a actualizar', user);
+              await firstValueFrom(this.usuarioService.updateUser(user));
+              await this.notificationService.setExternalId(user._id);
+              console.log('Usuario actualizado con Player ID');
+            } catch (err) {
+              console.error('Error actualizando el usuario:', err);
+            }
+          }
+          // Incluir alias en el usuario
+          await this.notificationService.setAliasOneSignal(user.name);
+          // 🔥 Actualizar menú
+          this.menuService.cargarMenus();
           this.navCtrl.navigateForward('/home'); // Redirige a la página principal
         },
         error: (error) => {

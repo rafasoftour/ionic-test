@@ -15,7 +15,10 @@ import {
 import { addIcons } from 'ionicons';
 import { homeOutline, carOutline, peopleOutline } from 'ionicons/icons';
 import { MenuItem } from './interfaces/menu.interface';
-import { StorageService } from './services/storage.service';
+
+import { Platform } from '@ionic/angular';
+import { NotificationService } from './services/notification.service';
+import { MenuService } from './services/menu.service';
 
 @Component({
   selector: 'app-root',
@@ -37,12 +40,12 @@ import { StorageService } from './services/storage.service';
   ],
 })
 export class AppComponent implements OnInit {
-  private storageService = inject(StorageService);
-  menuList: MenuItem[] = [
-    { link: '/home', icon: 'home-outline', label: 'Inicio' },
-    { link: '/vehiculo', icon: 'car-outline', label: 'Vehiculos' },
-  ];
-  constructor() {
+  private notificationService = inject(NotificationService);
+  private menuService = inject(MenuService);
+
+  menuList: MenuItem[] = [];
+  constructor(private platform: Platform) {
+    this.initializeApp();
     addIcons({
       homeOutline,
       carOutline,
@@ -51,22 +54,16 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.cargarMenus(); // Llamamos a la función async aquí
+    console.log('App OnInit');
+    this.menuService.menuList$.subscribe((menu) => {
+      this.menuList = menu;
+    });
   }
 
-  async cargarMenus() {
-    const user = await this.storageService.get('plannerstats-user');
-    const role = user?.role || 'user';
-    this.menuList =
-      role === 'admin'
-        ? [
-            { link: '/home', icon: 'home-outline', label: 'Inicio' },
-            { link: '/vehiculo', icon: 'car-outline', label: 'Vehiculos' },
-            { link: '/usuario', icon: 'people-outline', label: 'Usuarios' },
-          ]
-        : [
-            { link: '/home', icon: 'home-outline', label: 'Inicio' },
-            { link: '/vehiculo', icon: 'car-outline', label: 'Vehiculos' },
-          ];
+  // IONIC Zone
+  initializeApp() {
+    this.platform.ready().then(() => {
+      this.notificationService.initialize();
+    });
   }
 }
