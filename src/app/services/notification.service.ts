@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 import OneSignal from 'onesignal-cordova-plugin';
 import { environment } from '../../environments/environment';
 
@@ -7,7 +8,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class NotificationService {
-  constructor(private platform: Platform) {}
+  constructor(private platform: Platform, private router: Router) {}
 
   async initialize() {
     console.log('Initialize', this.platform.is('capacitor'));
@@ -21,8 +22,14 @@ export class NotificationService {
       console.log('OneSignal Init');
 
       OneSignal.Notifications.addEventListener('click', async (e) => {
-        let clickData = await e.notification;
-        console.log('Notification Clicked : ' + JSON.stringify(clickData));
+        let clickData: any = await e.notification;
+        console.log('Mensaje ID:', clickData.additionalData.messageId);
+        // Navegar a la página de detalles del mensaje
+        const messageId = clickData.additionalData.messageId;
+        if (messageId) {
+          // Navegar a la página de detalles pasando el ID del mensaje como parámetro
+          this.router.navigate(['/mensaje-detalle', messageId]);
+        }
       });
 
       OneSignal.Notifications.requestPermission(true).then(
