@@ -23,15 +23,22 @@
     @if(mensajeForm.get('audience')?.value === 'single') {
     <ion-item>
       <ion-label position="stacked">Seleccionar usuario</ion-label>
-      <ion-select formControlName="receiverId">
-        @for(user of users; track user) {
-        <ion-select-option [value]="user._id">
-          {{ user.name }}
-        </ion-select-option>
-        }
-      </ion-select>
+      <ion-input
+        formControlName="searchTerm"
+        (ionInput)="filtrarUsuarios()"
+        placeholder="Escriba para buscar..."
+      ></ion-input>
     </ion-item>
-    }
+    @if(usuariosFiltrados.length > 0) {
+    <ion-list>
+      @for(user of usuariosFiltrados; track user) {
+      <ion-item button class="user-item" (click)="seleccionarUsuario(user)">
+        <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+        {{ user.name }}
+      </ion-item>
+      }
+    </ion-list>
+    } }
     <ion-item>
       <ion-label position="stacked">Título</ion-label>
       <ion-input name="title" formControlName="title"></ion-input>
