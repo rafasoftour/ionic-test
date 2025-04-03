@@ -19,11 +19,14 @@ import {
   IonInput,
   IonText,
   IonTextarea,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 import { MensajeService } from '../../services/mensaje.service';
 import { ToastService } from '../../services/toast.service';
 import { addIcons } from 'ionicons';
 import { closeOutline } from 'ionicons/icons';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-mensaje-form',
@@ -44,15 +47,20 @@ import { closeOutline } from 'ionicons/icons';
     IonInput,
     ReactiveFormsModule,
     IonTextarea,
+    IonSelect,
+    IonSelectOption,
   ],
 })
 export class MensajeFormPage implements OnInit {
   mensajeForm: FormGroup;
   isEdit = false;
+  users: any[] = []; // Lista de usuarios
+
   private mensajeService = inject(MensajeService);
   private toastService = inject(ToastService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private usuarioService = inject(UsuarioService);
 
   constructor(private fb: FormBuilder) {
     addIcons({ closeOutline });
@@ -60,15 +68,25 @@ export class MensajeFormPage implements OnInit {
     this.mensajeForm = this.fb.group({
       title: ['', Validators.required],
       body: ['', Validators.required],
+      audience: ['all', Validators.required],
+      receiverId: [''],
     });
   }
 
   ngOnInit() {
+    this.loadUsers(); // Cargar usuarios al iniciar
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEdit = true;
       this.cargarMensaje(id);
     }
+  }
+
+  loadUsers() {
+    this.usuarioService.getAllUsers().subscribe((users) => {
+      console.log('Users', users);
+      this.users = users;
+    });
   }
 
   cargarMensaje(id: string) {

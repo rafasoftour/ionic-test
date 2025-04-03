@@ -12,6 +12,27 @@
 <ion-content class="ion-padding">
   <form [formGroup]="mensajeForm" (ngSubmit)="guardarMensaje()">
     <ion-item>
+      <ion-label position="stacked">Audiencia</ion-label>
+      <ion-select formControlName="audience">
+        <ion-select-option value="all">Todos</ion-select-option>
+        <ion-select-option value="single">Usuario específico</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Mostrar solo si la audiencia es "single" -->
+    @if(mensajeForm.get('audience')?.value === 'single') {
+    <ion-item>
+      <ion-label position="stacked">Seleccionar usuario</ion-label>
+      <ion-select formControlName="receiverId">
+        @for(user of users; track user) {
+        <ion-select-option [value]="user._id">
+          {{ user.name }}
+        </ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+    }
+    <ion-item>
       <ion-label position="stacked">Título</ion-label>
       <ion-input name="title" formControlName="title"></ion-input>
     </ion-item>
