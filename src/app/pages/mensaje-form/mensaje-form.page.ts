@@ -27,6 +27,7 @@ import { ToastService } from '../../services/toast.service';
 import { addIcons } from 'ionicons';
 import { closeOutline } from 'ionicons/icons';
 import { UsuarioService } from '../../services/usuario.service';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-mensaje-form',
@@ -61,6 +62,7 @@ export class MensajeFormPage implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private usuarioService = inject(UsuarioService);
+  private storageService = inject(StorageService);
 
   constructor(private fb: FormBuilder) {
     addIcons({ closeOutline });
@@ -84,7 +86,6 @@ export class MensajeFormPage implements OnInit {
 
   loadUsers() {
     this.usuarioService.getAllUsers().subscribe((users) => {
-      console.log('Users', users);
       this.users = users;
     });
   }
@@ -97,12 +98,12 @@ export class MensajeFormPage implements OnInit {
     });
   }
 
-  guardarMensaje() {
+  async guardarMensaje() {
     if (this.mensajeForm.invalid) {
       return;
     }
-
-    const mensajeData = this.mensajeForm.value;
+    const senderId = await this.obtenerSenderId();
+    const mensajeData = { ...this.mensajeForm.value, senderId };
 
     if (this.isEdit) {
       this.mensajeService.updateMensaje(mensajeData).subscribe(() => {
@@ -115,6 +116,11 @@ export class MensajeFormPage implements OnInit {
         this.router.navigate(['/mensaje']);
       });
     }
+  }
+
+  async obtenerSenderId() {
+    const usuario = await this.storageService.get('plannerstats-user');
+    return usuario ? usuario._id : null;
   }
 
   cancelar() {
