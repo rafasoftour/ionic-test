@@ -69,6 +69,7 @@
     <!-- Botón "Guardar y Enviar" -->
     <ion-button
       expand="full"
+      color="secondary"
       [disabled]="mensajeForm.invalid || (isEdit && mensajeForm.value.sentAt)"
       (click)="guardarMensaje(true)"
     >

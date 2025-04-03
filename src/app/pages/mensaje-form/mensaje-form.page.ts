@@ -123,6 +123,13 @@ export class MensajeFormPage implements OnInit {
       console.log('Cargar mensaje', mensaje);
       if (mensaje) {
         this.mensajeForm.patchValue(mensaje);
+
+        if (mensaje.audience === 'single' && mensaje.receiverId) {
+          const usuario = this.users.find((u) => u._id === mensaje.receiverId);
+          if (usuario) {
+            this.mensajeForm.patchValue({ searchTerm: usuario.name });
+          }
+        }
       }
     });
   }
