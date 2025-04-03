@@ -19,8 +19,8 @@ export class MensajeService {
     return this.http.get<Mensaje>(`${this.apiUrl}/${id}`);
   }
 
-  getMensajeToUser(userId: string): Observable<Mensaje> {
-    return this.http.get<Mensaje>(`${this.apiUrl}/user/${userId}`);
+  getMensajeToUser(userId: string): Observable<Mensaje[]> {
+    return this.http.get<Mensaje[]>(`${this.apiUrl}/user/${userId}`);
   }
 
   updateMensaje(mensaje: Mensaje): Observable<Mensaje> {

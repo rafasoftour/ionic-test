@@ -94,5 +94,14 @@ export const routes: Routes = [
       import('./pages/mensaje-detalle/mensaje-detalle.page').then(
         (m) => m.MensajeDetallePage
       ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'mensaje-usuario',
+    loadComponent: () =>
+      import('./pages/mensaje-usuario/mensaje-usuario.page').then(
+        (m) => m.MensajeUsuarioPage
+      ),
+    canActivate: [AuthGuard],
   },
 ];

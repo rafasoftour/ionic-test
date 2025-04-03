@@ -29,6 +29,11 @@ export class MenuService {
         : [
             { link: '/home', icon: 'home-outline', label: 'Inicio' },
             { link: '/vehiculo', icon: 'car-outline', label: 'Vehiculos' },
+            {
+              link: '/mensaje-usuario',
+              icon: 'notifications-outline',
+              label: 'Mis mensajes',
+            },
           ];
 
     this.menuListSubject.next(menu);
