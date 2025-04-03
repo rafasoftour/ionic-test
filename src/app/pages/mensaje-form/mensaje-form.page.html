@@ -66,5 +66,13 @@
     <ion-button expand="full" type="submit" [disabled]="mensajeForm.invalid">
       Guardar
     </ion-button>
+    <!-- Botón "Guardar y Enviar" -->
+    <ion-button
+      expand="full"
+      [disabled]="mensajeForm.invalid || (isEdit && mensajeForm.value.sentAt)"
+      (click)="guardarMensaje(true)"
+    >
+      {{ isEdit ? 'Enviar' : 'Guardar y Enviar' }}
+    </ion-button>
   </form>
 </ion-content>

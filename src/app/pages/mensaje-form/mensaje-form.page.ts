@@ -31,6 +31,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { StorageService } from '../../services/storage.service';
 import { Usuario } from '../../interfaces/user.interface';
 import { FormsModule } from '@angular/forms';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-mensaje-form',
@@ -60,6 +61,7 @@ import { FormsModule } from '@angular/forms';
 export class MensajeFormPage implements OnInit {
   mensajeForm: FormGroup;
   isEdit = false;
+  intId = '';
   users: any[] = []; // Lista de usuarios
 
   usuariosFiltrados = [...this.users];
@@ -80,6 +82,7 @@ export class MensajeFormPage implements OnInit {
       audience: ['all', Validators.required],
       receiverId: [''],
       searchTerm: [''],
+      sentAt: [null],
     });
   }
 
@@ -87,6 +90,7 @@ export class MensajeFormPage implements OnInit {
     this.loadUsers(); // Cargar usuarios al iniciar
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.intId = id;
       this.isEdit = true;
       this.cargarMensaje(id);
     }
@@ -116,13 +120,14 @@ export class MensajeFormPage implements OnInit {
 
   cargarMensaje(id: string) {
     this.mensajeService.getMensajeById(id).subscribe((mensaje) => {
+      console.log('Cargar mensaje', mensaje);
       if (mensaje) {
         this.mensajeForm.patchValue(mensaje);
       }
     });
   }
 
-  async guardarMensaje() {
+  async guardarMensaje(send: boolean = false) {
     if (this.mensajeForm.invalid) {
       return;
     }
@@ -131,15 +136,30 @@ export class MensajeFormPage implements OnInit {
     const mensaje = { ...mensajeData, senderId };
 
     if (this.isEdit) {
-      this.mensajeService.updateMensaje(mensaje).subscribe(() => {
+      mensaje._id = this.intId;
+      this.mensajeService.updateMensaje(mensaje).subscribe((data) => {
         this.toastService.showMessage('Mensaje actualizado', 'success');
+        this.procesarEnvio(send);
+      });
+    } else {
+      this.mensajeService
+        .createMensaje(mensaje)
+        .pipe(take(1))
+        .subscribe((data: any) => {
+          this.intId = data.createdMessage._id;
+          this.toastService.showMessage('Mensaje creado', 'success');
+          this.procesarEnvio(send);
+        });
+    }
+  }
+  private procesarEnvio(send: boolean) {
+    if (send) {
+      this.mensajeService.sendOneSignal(this.intId).subscribe(() => {
+        this.toastService.showMessage('Mensaje notificado', 'success');
         this.router.navigate(['/mensaje']);
       });
     } else {
-      this.mensajeService.createMensaje(mensaje).subscribe(() => {
-        this.toastService.showMessage('Mensaje creado', 'success');
-        this.router.navigate(['/mensaje']);
-      });
+      this.router.navigate(['/mensaje']);
     }
   }
 

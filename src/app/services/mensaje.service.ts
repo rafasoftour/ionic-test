@@ -34,4 +34,8 @@ export class MensajeService {
   deleteMensaje(mensaje: Mensaje): Observable<Mensaje> {
     return this.http.delete<Mensaje>(`${this.apiUrl}/${mensaje._id}`);
   }
+
+  sendOneSignal(id: string): Observable<Mensaje> {
+    return this.http.post<Mensaje>(`${this.apiUrl}/onesignal/${id}`, {});
+  }
 }
