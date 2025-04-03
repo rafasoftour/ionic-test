@@ -5,4 +5,6 @@ export interface Mensaje {
   senderId: string;
   audience: 'all' | 'single';
   receiverId?: string;
+  createdAt?: Date;
+  sentAt?: Date;
 }

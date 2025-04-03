@@ -33,6 +33,8 @@ import {
   trashOutline,
   createOutline,
   addOutline,
+  hourglassOutline,
+  checkmarkCircleOutline,
 } from 'ionicons/icons';
 
 @Component({
@@ -76,7 +78,14 @@ export class MensajePage {
     private alertController: AlertController,
     private loadingController: LoadingController
   ) {
-    addIcons({ homeOutline, createOutline, trashOutline, addOutline });
+    addIcons({
+      homeOutline,
+      hourglassOutline,
+      checkmarkCircleOutline,
+      createOutline,
+      trashOutline,
+      addOutline,
+    });
   }
 
   // Utilizamos willEnter para que se actualice la lista al crear o eliminar
@@ -110,7 +119,6 @@ export class MensajePage {
 
   // Función que se llama cuando el usuario hace una búsqueda
   searchMensaje() {
-    console.log('SearchMensaje');
     if (this.searchQuery.trim() === '') {
       this.filteredVehiculos = this.mensajes; // Si no hay texto de búsqueda, mostramos todos los mensajes
     } else {
@@ -126,12 +134,10 @@ export class MensajePage {
   }
 
   editMensaje(mensaje: Mensaje) {
-    console.log('EditV', mensaje);
     this.router.navigate(['/mensaje/editar', mensaje._id]);
   }
 
   async deleteMensaje(mensaje: Mensaje) {
-    console.log('DeleteV', mensaje);
     const alert = await this.alertController.create({
       header: 'Eliminar Vehículo',
       message: `¿Estás seguro de que deseas eliminar el mensaje con titulo '${mensaje.title}'?`,
@@ -156,7 +162,14 @@ export class MensajePage {
     await alert.present();
   }
   createMensaje() {
-    console.log('Crear mensaje');
     this.router.navigate(['/mensaje/nuevo']);
+  }
+
+  goToDetalle(mensaje: Mensaje) {
+    this.router.navigate(['/mensaje-detalle', mensaje._id]);
+  }
+
+  trackByFn(index: number, item: any): any {
+    return item._id; // Puedes usar cualquier identificador único en el objeto
   }
 }

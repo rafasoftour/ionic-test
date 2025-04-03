@@ -88,4 +88,11 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'mensaje-detalle/:id',
+    loadComponent: () =>
+      import('./pages/mensaje-detalle/mensaje-detalle.page').then(
+        (m) => m.MensajeDetallePage
+      ),
+  },
 ];
