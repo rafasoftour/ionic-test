@@ -17,6 +17,7 @@ import {
   IonCardTitle,
   IonCardSubtitle,
 } from '@ionic/angular/standalone';
+import { UsuarioHeaderComponent } from '../../components/usuario-header/usuario-header.component';
 
 @Component({
   selector: 'app-mensaje-detalle',
@@ -36,6 +37,7 @@ import {
     IonCardContent,
     IonCardTitle,
     IonCardSubtitle,
+    UsuarioHeaderComponent,
   ],
 })
 export class MensajeDetallePage implements OnInit {

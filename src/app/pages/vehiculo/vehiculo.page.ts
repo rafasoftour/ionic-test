@@ -34,6 +34,7 @@ import {
   createOutline,
   addOutline,
 } from 'ionicons/icons';
+import { UsuarioHeaderComponent } from '../../components/usuario-header/usuario-header.component';
 
 @Component({
   selector: 'app-vehiculo',
@@ -61,6 +62,7 @@ import {
     IonLabel,
     IonSearchbar,
     IonMenuToggle,
+    UsuarioHeaderComponent,
   ],
 })
 export class VehiculoPage {

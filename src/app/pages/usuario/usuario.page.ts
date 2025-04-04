@@ -35,6 +35,7 @@ import {
   addOutline,
   peopleOutline,
 } from 'ionicons/icons';
+import { UsuarioHeaderComponent } from '../../components/usuario-header/usuario-header.component';
 
 @Component({
   selector: 'app-usuario',
@@ -62,6 +63,7 @@ import {
     IonLabel,
     IonSearchbar,
     IonMenuToggle,
+    UsuarioHeaderComponent,
   ],
 })
 export class UsuarioPage {
