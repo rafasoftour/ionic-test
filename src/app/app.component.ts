@@ -26,7 +26,6 @@ import { MenuItem } from './interfaces/menu.interface';
 import { Platform } from '@ionic/angular';
 import { NotificationService } from './services/notification.service';
 import { MenuService } from './services/menu.service';
-import { StatusBar } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-root',
@@ -73,8 +72,6 @@ export class AppComponent implements OnInit {
   initializeApp() {
     this.platform.ready().then(() => {
       this.notificationService.initialize();
-      // Evita que la StatusBar solape el header en dispositivos físicos
-      // StatusBar.setOverlaysWebView({ overlay: false });
     });
   }
 }
