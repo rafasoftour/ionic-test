@@ -11,7 +11,6 @@ export class NotificationService {
   constructor(private platform: Platform, private router: Router) {}
 
   async initialize() {
-    console.log('Initialize', this.platform.is('capacitor'));
     if (this.platform.is('capacitor')) {
       console.log('OneSignal setupPush');
       // Remove this method to stop OneSignal Debugging

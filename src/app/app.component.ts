@@ -64,7 +64,6 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log('App OnInit');
     this.menuService.menuList$.subscribe((menu) => {
       this.menuList = menu;
     });
