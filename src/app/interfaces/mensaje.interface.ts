@@ -8,3 +8,8 @@ export interface Mensaje {
   createdAt?: Date;
   sentAt?: Date;
 }
+
+export interface MensajeLeido {
+  messageId: string;
+  userId: string;
+}

@@ -3,12 +3,21 @@ import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import OneSignal from 'onesignal-cordova-plugin';
 import { environment } from '../../environments/environment';
+import { StorageService } from './storage.service';
+import { MensajeLeido } from '../interfaces/mensaje.interface';
+import { MensajeService } from './mensaje.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  constructor(private platform: Platform, private router: Router) {}
+  constructor(
+    private platform: Platform,
+    private router: Router,
+    private storageService: StorageService,
+    private mensajeService: MensajeService
+  ) {}
 
   async initialize() {
     if (this.platform.is('capacitor')) {
@@ -23,6 +32,14 @@ export class NotificationService {
       OneSignal.Notifications.addEventListener('click', async (e) => {
         let clickData: any = await e.notification;
         console.log('Mensaje ID:', clickData.additionalData.messageId);
+        // Obtener los datos del usuario logado
+        const usuario = await this.storageService.get('plannerstats-user');
+        const datos: MensajeLeido = {
+          messageId: clickData.additionalData.messageId,
+          userId: usuario._id,
+        };
+        // Marcar el mensaje como leido.
+        await firstValueFrom(this.mensajeService.recivedMensaje(datos));
         // Navegar a la página de detalles del mensaje
         const messageId = clickData.additionalData.messageId;
         if (messageId) {
@@ -37,8 +54,13 @@ export class NotificationService {
         }
       );
 
-      // Obtener el OneSignal ID
-      this.getOneSignalId();
+      // Forzar suscripción (por si el usuario fue eliminado o está desuscrito)
+      OneSignal.User.pushSubscription.optIn();
+      console.log('🔁 Forzando suscripción del usuario');
+
+      // Obtener OneSignal ID
+      const oneSignalId = await this.getOneSignalId();
+      console.log('🆔 OneSignal User ID:', oneSignalId);
     }
   }
 

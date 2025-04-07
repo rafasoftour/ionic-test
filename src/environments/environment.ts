@@ -3,7 +3,7 @@ export const environment = {
   appName: 'Plannerstats App',
   apiBaseUrl: 'http://localhost:3000/plannerstats', // API local
   oneSignal: {
-    appId: 'e71cf6d3-5602-442f-b30a-334115b85807', // ID de desarrollo
+    appId: '41a4d1d3-1ce0-48a8-a879-cbd9c3a3bc3e', // ID de desarrollo
     googleProjectNumber: '1234567890', // Solo para Android
     safariWebId: 'web.onesignal.dev.123', // Solo para iOS web
   },

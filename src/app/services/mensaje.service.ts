@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Mensaje } from '../interfaces/mensaje.interface';
+import { Mensaje, MensajeLeido } from '../interfaces/mensaje.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -37,5 +37,9 @@ export class MensajeService {
 
   sendOneSignal(id: string): Observable<Mensaje> {
     return this.http.post<Mensaje>(`${this.apiUrl}/onesignal/${id}`, {});
+  }
+
+  recivedMensaje(datos: MensajeLeido): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/recived`, datos);
   }
 }

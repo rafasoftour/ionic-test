@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.softoursistemas.ionictest',
+  appId: 'com.softoursistemas.plannerstats',
   appName: 'PlannerStats',
   webDir: 'www',
   plugins: {
