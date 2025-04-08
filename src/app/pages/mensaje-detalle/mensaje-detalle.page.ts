@@ -16,8 +16,19 @@ import {
   IonCardContent,
   IonCardTitle,
   IonCardSubtitle,
+  IonTabs,
+  IonTabBar,
+  IonTabButton,
+  IonLabel,
+  IonList,
+  IonItem,
+  IonTab,
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { UsuarioHeaderComponent } from '../../components/usuario-header/usuario-header.component';
+
+import { addIcons } from 'ionicons';
+import { peopleOutline, documentOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-mensaje-detalle',
@@ -25,6 +36,8 @@ import { UsuarioHeaderComponent } from '../../components/usuario-header/usuario-
   styleUrls: ['./mensaje-detalle.page.scss'],
   standalone: true,
   imports: [
+    IonIcon,
+    IonTab,
     CommonModule,
     IonHeader,
     IonToolbar,
@@ -37,6 +50,12 @@ import { UsuarioHeaderComponent } from '../../components/usuario-header/usuario-
     IonCardContent,
     IonCardTitle,
     IonCardSubtitle,
+    IonTabs,
+    IonTabBar,
+    IonTabButton,
+    IonLabel,
+    IonList,
+    IonItem,
     UsuarioHeaderComponent,
   ],
 })
@@ -47,9 +66,12 @@ export class MensajeDetallePage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private mensajeService: MensajeService,
     private toastService: ToastService
-  ) {}
+  ) {
+    addIcons({ documentOutline, peopleOutline });
+  }
 
   ngOnInit() {
+    addIcons({ documentOutline, peopleOutline });
     const mensajeId = this.activatedRoute.snapshot.paramMap.get('id');
     if (mensajeId) {
       this.obtenerMensajeDetalle(mensajeId);

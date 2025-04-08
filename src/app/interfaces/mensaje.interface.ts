@@ -1,3 +1,10 @@
+export interface Usuario {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+}
+
 export interface Mensaje {
   _id: string;
   title: string;
@@ -7,6 +14,11 @@ export interface Mensaje {
   receiverId?: string;
   createdAt?: Date;
   sentAt?: Date;
+  readBy: {
+    user: Usuario;
+    readAt: Date;
+    _id: string;
+  }[];
 }
 
 export interface MensajeLeido {
