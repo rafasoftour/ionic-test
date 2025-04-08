@@ -29,6 +29,7 @@ import { UsuarioHeaderComponent } from '../../components/usuario-header/usuario-
 
 import { addIcons } from 'ionicons';
 import { peopleOutline, documentOutline } from 'ionicons/icons';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   selector: 'app-mensaje-detalle',
@@ -57,6 +58,7 @@ import { peopleOutline, documentOutline } from 'ionicons/icons';
     IonList,
     IonItem,
     UsuarioHeaderComponent,
+    FooterComponent,
   ],
 })
 export class MensajeDetallePage implements OnInit {

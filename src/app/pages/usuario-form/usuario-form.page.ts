@@ -27,6 +27,7 @@ import { ToastService } from '../../services/toast.service';
 import { addIcons } from 'ionicons';
 import { closeOutline } from 'ionicons/icons';
 import { UsuarioHeaderComponent } from '../../components/usuario-header/usuario-header.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   selector: 'app-usuario-form',
@@ -47,6 +48,7 @@ import { UsuarioHeaderComponent } from '../../components/usuario-header/usuario-
     IonInput,
     ReactiveFormsModule,
     UsuarioHeaderComponent,
+    FooterComponent,
   ],
 })
 export class UsuarioFormPage implements OnInit {

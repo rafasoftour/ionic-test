@@ -37,6 +37,7 @@ import {
   checkmarkCircleOutline,
 } from 'ionicons/icons';
 import { UsuarioHeaderComponent } from '../../components/usuario-header/usuario-header.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   selector: 'app-mensaje',
@@ -65,6 +66,7 @@ import { UsuarioHeaderComponent } from '../../components/usuario-header/usuario-
     IonSearchbar,
     IonMenuToggle,
     UsuarioHeaderComponent,
+    FooterComponent,
   ],
 })
 export class MensajePage {
